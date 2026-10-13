@@ -12,6 +12,7 @@ const products = [
 
 let cart = [];
 let isOrderCompleted = false;
+let orderCounter = 1001; // Auto-incrementing transaction sequence
 
 // ==========================================
 // 2. DOM ELEMENT REFERENCES
@@ -24,12 +25,13 @@ const summaryTotal = document.getElementById("summary-total");
 
 const amountPaidInput = document.getElementById("amount-paid");
 const paymentError = document.getElementById("payment-error");
+const paymentSuccess = document.getElementById("payment-success");
 const changeDisplay = document.getElementById("change-display");
 const confirmPayBtn = document.getElementById("confirm-pay-btn");
 const receiptPreview = document.getElementById("receipt-preview");
 const newOrderBtn = document.getElementById("new-order-btn");
 
-// Clear error messages when user types in the input
+// Reset error/success alerts when input changes
 amountPaidInput.addEventListener("input", clearPaymentMessages);
 
 // ==========================================
@@ -56,7 +58,6 @@ function renderProductList() {
 // 4. CART OPERATIONS
 // ==========================================
 function addToCart(productId) {
-    // If previous transaction completed, auto-start clean order
     if (isOrderCompleted) {
         startNewOrder();
     }
@@ -170,6 +171,10 @@ function updateOrderSummary() {
 function clearPaymentMessages() {
     paymentError.style.display = "none";
     paymentError.textContent = "";
+    if (paymentSuccess) {
+        paymentSuccess.style.display = "none";
+        paymentSuccess.textContent = "";
+    }
 }
 
 function resetPaymentState() {
@@ -178,6 +183,7 @@ function resetPaymentState() {
 }
 
 function showPaymentError(message) {
+    clearPaymentMessages();
     paymentError.textContent = message;
     paymentError.style.display = "block";
     changeDisplay.textContent = "₱0.00";
@@ -186,7 +192,7 @@ function showPaymentError(message) {
 function processPayment() {
     clearPaymentMessages();
 
-    // Guard 1: Prevent payment on empty cart
+    // Guard: Prevent payment on empty cart
     if (cart.length === 0) {
         showPaymentError("Cart is empty. Please add items before paying.");
         return;
@@ -195,7 +201,7 @@ function processPayment() {
     const rawInput = amountPaidInput.value.trim();
     const totalDue = getTotalAmount();
 
-    // Guard 2: Blank, non-numeric, or negative amounts
+    // Guard: Blank, non-numeric, or negative amounts
     if (rawInput === "" || isNaN(rawInput) || parseFloat(rawInput) < 0) {
         showPaymentError("Please enter a valid payment amount.");
         return;
@@ -203,19 +209,24 @@ function processPayment() {
 
     const amountPaid = parseFloat(rawInput);
 
-    // Guard 3: Insufficient payment
+    // Guard: Insufficient payment
     if (amountPaid < totalDue) {
         showPaymentError(`Insufficient payment. Please enter at least ₱${totalDue.toFixed(2)}.`);
         return;
     }
 
-    // Guard 4: Sufficient payment confirmed -> Compute change
-    // Formula: Change = Amount Paid − Total Amount
+    // Compute change
     const change = amountPaid - totalDue;
     changeDisplay.textContent = `₱${change.toFixed(2)}`;
 
-    // Generate receipt and lock active transaction
+    // Display payment confirmation
+    paymentSuccess.textContent = "Payment successful! Transaction complete.";
+    paymentSuccess.style.display = "block";
+
+    // Generate digital receipt with transaction reference
     generateReceipt(amountPaid, totalDue, change);
+
+    // Lock transaction controls
     isOrderCompleted = true;
     newOrderBtn.style.display = "block";
     confirmPayBtn.disabled = true;
@@ -223,10 +234,11 @@ function processPayment() {
 }
 
 // ==========================================
-// 7. STEP 5: RECEIPT GENERATION & TRANSACTION RESET
+// 7. RECEIPT GENERATION & TRANSACTION RESET
 // ==========================================
 function generateReceipt(amountPaid, totalDue, change) {
     const timestamp = new Date().toLocaleString();
+    const txnRef = `TXN-${orderCounter++}`; // Unique reference per transaction
 
     let itemsHtml = "";
     cart.forEach(item => {
@@ -244,6 +256,7 @@ function generateReceipt(amountPaid, totalDue, change) {
             <div class="receipt-center">
                 <strong>CAMPUS BAKERY POS</strong><br>
                 <span>Official Order Receipt</span><br>
+                <span><strong>Ref #: ${txnRef}</strong></span><br>
                 <span>${timestamp}</span>
             </div>
             <div class="receipt-divider"></div>
@@ -270,22 +283,22 @@ function generateReceipt(amountPaid, totalDue, change) {
 }
 
 function startNewOrder() {
-    // 1. Reset state
     cart = [];
     isOrderCompleted = false;
 
-    // 2. Re-enable form controls
+    // Reset controls
     amountPaidInput.value = "";
     amountPaidInput.disabled = false;
     confirmPayBtn.disabled = false;
     newOrderBtn.style.display = "none";
 
-    // 3. Clear UI displays
+    // Reset UI state
     renderCart();
     updateOrderSummary();
     resetPaymentState();
+    clearPaymentMessages();
     receiptPreview.innerHTML = `<p class="placeholder-text">Transaction receipt will be printed here after checkout.</p>`;
 }
 
-// Initial invocation on load
+// Initialize on page load
 renderProductList();
