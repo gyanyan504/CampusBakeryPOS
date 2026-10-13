@@ -7,15 +7,85 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
+    <header class="app-header">
         <h1>Campus Bakery POS</h1>
-        <p>Order and Checkout System</p>
+        <p>Point of Sale & Food Ordering Terminal</p>
     </header>
 
-    <main id="app-container">
-        <!-- Product list and Cart will be injected here in later steps -->
-        <p id="status-msg">System initialized successfully.</p>
-    </main>
+    <div class="pos-container">
+        <!-- 1. PRODUCT LIST SECTION -->
+        <section id="product-list-section" class="pos-panel">
+            <div class="panel-header">
+                <h2>Product List</h2>
+                <span class="badge">6 Items Available</span>
+            </div>
+            <div id="product-grid" class="product-grid">
+                <!-- Injected dynamically by app.js -->
+            </div>
+        </section>
+
+        <!-- RIGHT SIDEBAR: ORDER & CHECKOUT WORKFLOW -->
+        <div class="pos-sidebar">
+            <!-- 2. SHOPPING CART SECTION -->
+            <section id="shopping-cart-section" class="pos-panel">
+                <div class="panel-header">
+                    <h2>Shopping Cart</h2>
+                </div>
+                <div id="cart-items" class="cart-items-container">
+                    <p class="placeholder-text">Cart is empty. Click "Add to Cart" on any product.</p>
+                </div>
+            </section>
+
+            <!-- 3. ORDER SUMMARY SECTION -->
+            <section id="order-summary-section" class="pos-panel">
+                <div class="panel-header">
+                    <h2>Order Summary</h2>
+                </div>
+                <div class="summary-details">
+                    <div class="summary-row">
+                        <span>Items Count:</span>
+                        <span id="summary-count">0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="summary-subtotal">₱0.00</span>
+                    </div>
+                    <div class="summary-row total-row">
+                        <span>Total Due:</span>
+                        <span id="summary-total">₱0.00</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. PAYMENT SECTION -->
+            <section id="payment-section" class="pos-panel">
+                <div class="panel-header">
+                    <h2>Payment</h2>
+                </div>
+                <div class="payment-controls">
+                    <label for="cash-tendered">Cash Tendered (₱):</label>
+                    <input type="number" id="cash-tendered" placeholder="0.00" min="0" step="1" disabled>
+                    
+                    <div class="summary-row change-row">
+                        <span>Change:</span>
+                        <span id="change-display">₱0.00</span>
+                    </div>
+
+                    <button id="pay-btn" class="action-btn" disabled>Process Payment</button>
+                </div>
+            </section>
+
+            <!-- 5. RECEIPT SECTION -->
+            <section id="receipt-section" class="pos-panel">
+                <div class="panel-header">
+                    <h2>Receipt</h2>
+                </div>
+                <div id="receipt-preview" class="receipt-box">
+                    <p class="placeholder-text">Transaction receipt will be printed here after checkout.</p>
+                </div>
+            </section>
+        </div>
+    </div>
 
     <script src="app.js"></script>
 </body>
