@@ -26,7 +26,7 @@ body {
     color: #666;
 }
 
-/* Desktop Two-Column POS Layout */
+/* Two-Column Layout */
 .pos-container {
     display: flex;
     gap: 16px;
@@ -35,12 +35,10 @@ body {
     align-items: flex-start;
 }
 
-/* Main Left Panel: Product List */
 #product-list-section {
     flex: 1.6;
 }
 
-/* Right Sidebar: Cart, Summary, Payment, Receipt */
 .pos-sidebar {
     flex: 1.1;
     display: flex;
@@ -48,7 +46,7 @@ body {
     gap: 16px;
 }
 
-/* Common Section Panel Style */
+/* Panel Card Design */
 .pos-panel {
     background: #ffffff;
     border-radius: 8px;
@@ -79,7 +77,7 @@ body {
     color: #495057;
 }
 
-/* Product Grid */
+/* Product Catalog Grid */
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
@@ -127,12 +125,12 @@ body {
     background-color: #6e350d;
 }
 
-/* Cart & Placeholder Text */
+/* Shopping Cart */
 .cart-items-container {
     min-height: 70px;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .placeholder-text {
@@ -140,91 +138,7 @@ body {
     font-size: 0.9rem;
     text-align: center;
     font-style: italic;
-}
-
-/* Order Summary */
-.summary-details {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.summary-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.95rem;
-    color: #444;
-}
-
-.total-row {
-    border-top: 1px dashed #ccc;
-    padding-top: 8px;
-    font-size: 1.15rem;
-    font-weight: bold;
-    color: #111;
-}
-
-/* Payment Controls */
-.payment-controls {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.payment-controls label {
-    font-size: 0.9rem;
-    font-weight: 600;
-}
-
-.payment-controls input {
-    padding: 8px 10px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.change-row {
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: #0b5ed7;
-}
-
-.action-btn {
-    background-color: #2b8a3e;
-    color: white;
-    border: none;
-    padding: 10px;
-    font-size: 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.action-btn:disabled, input:disabled {
-    background-color: #e9ecef;
-    color: #adb5bd;
-    border-color: #dee2e6;
-    cursor: not-allowed;
-}
-
-/* Receipt Display */
-.receipt-box {
-    background: #fdfdfd;
-    border: 1px dashed #b0b0b0;
-    padding: 12px;
-    border-radius: 4px;
-    min-height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: "Courier New", Courier, monospace;
-}
-/* --- Step 3: Cart Items Styling --- */
-.cart-items-container {
-    min-height: 80px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    padding: 12px 0;
 }
 
 .cart-item-row {
@@ -300,4 +214,125 @@ body {
 
 .remove-btn:hover {
     background: #ffe3e3;
+}
+
+/* Order Summary */
+.summary-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.total-row {
+    border-top: 1px dashed #ccc;
+    padding-top: 8px;
+    font-size: 1.15rem;
+    font-weight: bold;
+    color: #111;
+}
+
+/* Payment Controls */
+.payment-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.payment-controls label {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.payment-controls input {
+    padding: 8px 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.change-row {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #0b5ed7;
+}
+
+.error-msg {
+    color: #842029;
+    background-color: #f8d7da;
+    border: 1px solid #f5c2c7;
+    padding: 8px 10px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.action-btn {
+    background-color: #2b8a3e;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.15s ease-in-out;
+}
+
+.action-btn:hover {
+    background-color: #237032;
+}
+
+.action-btn:disabled, input:disabled {
+    background-color: #e9ecef;
+    color: #adb5bd;
+    border-color: #dee2e6;
+    cursor: not-allowed;
+}
+
+.new-order-btn {
+    margin-top: 12px;
+    width: 100%;
+    background-color: #0d6efd;
+}
+
+.new-order-btn:hover {
+    background-color: #0b5ed7;
+}
+
+/* Receipt Display */
+.receipt-box {
+    background: #ffffff;
+    border: 1px dashed #999;
+    padding: 14px;
+    border-radius: 4px;
+    min-height: 80px;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: #111;
+}
+
+.receipt-text {
+    width: 100%;
+}
+
+.receipt-divider {
+    border-top: 1px dashed #888;
+    margin: 8px 0;
+}
+
+.receipt-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.receipt-center {
+    text-align: center;
 }
